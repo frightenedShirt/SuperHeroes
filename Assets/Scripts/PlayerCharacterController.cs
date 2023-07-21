@@ -1,6 +1,8 @@
 using UnityEngine;
 using Mirror;
 using StarterAssets;
+using static UnityEditor.Experimental.GraphView.GraphView;
+using UnityEditor.PackageManager;
 
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -18,6 +20,20 @@ public class PlayerCharacterController : NetworkBehaviour
     private Rigidbody rb;
     private StarterAssetsInputs input;
     public bool isGrounded;
+
+    private float powerMeter = 0;
+    private PlayerModel playerModel;
+
+    // power up
+    private SuperPowers m_SuperPower;
+    [SerializeField] private LayerMask layer;
+    private RaycastHit hitInfo;
+    private float RaycastDistance = 10.0f;
+    private float DashSpeed = 10.0f;
+    private LineRenderer trail;
+    private float RayRange = 50;
+    [SerializeField] private Transform rayOrigin;
+    private float timeLongPress = 0.0f;
 
     public override void OnStartAuthority()
     {
@@ -37,6 +53,7 @@ public class PlayerCharacterController : NetworkBehaviour
         {
             return;
         }
+        m_SuperPower = SuperPowers.Freeze;
 
         this.transform.GetChild(3).gameObject.SetActive(true);
     }
@@ -47,6 +64,8 @@ public class PlayerCharacterController : NetworkBehaviour
         {
             return;
         }
+
+        StartAttack(m_SuperPower);
 
         isGrounded = Physics.CheckSphere(groundCheck.position, 0.2f, groundLayers.value, QueryTriggerInteraction.Ignore);
 
@@ -76,4 +95,90 @@ public class PlayerCharacterController : NetworkBehaviour
             input.jump = false;
         }
     }
+
+    private void StartAttack(SuperPowers _superPowers)
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("[Debug]Short Press Input");
+            ShortPressAttack(_superPowers);
+        }
+
+        if (Input.GetMouseButton(0))
+        {
+            Debug.Log("[Debug]Long Press Input");
+            LongPressAttack(_superPowers);
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            timeLongPress = 0;
+        }
+
+        if (powerMeter >= 100)
+        {
+            RageAttack(_superPowers);
+        }
+    }
+
+    private void ShortPressAttack(SuperPowers _superPower)
+    {
+        switch (_superPower)
+        {
+            case SuperPowers.Freeze:
+                if (Physics.Raycast(rayOrigin.position, rayOrigin.forward, out hitInfo, RayRange, layer, QueryTriggerInteraction.Collide))
+                {
+                    Debug.Log("[Debug]Short Press Freeze power");
+                    Debug.DrawRay(rayOrigin.position, rayOrigin.forward * RayRange, Color.red);
+                }
+                break;
+        }
+    }
+
+    private void LongPressAttack(SuperPowers _superPower)
+    {
+        switch (_superPower)
+        {
+            case SuperPowers.Freeze:
+                timeLongPress += Time.deltaTime;
+                if(timeLongPress >= 2.0)
+                {
+                    Debug.Log("[Debug]Long Press Freeze power1");
+                    //Physics.Raycast(rayOrigin.position, rayOrigin.forward, out hitInfo, RayRange, layer, QueryTriggerInteraction.Collide);
+                    if (Physics.Raycast(rayOrigin.position, rayOrigin.forward, out hitInfo, RayRange, layer, QueryTriggerInteraction.Collide))
+                    {
+                        Debug.Log("[Debug]Long Press Freeze power2");
+                        Debug.DrawRay(rayOrigin.position, rayOrigin.forward * RayRange, Color.red);
+                    }
+                }
+                break;
+                
+        }
+    }
+
+    private void RageAttack(SuperPowers _superPower)
+    {
+
+    }
+    /* private void Update()
+        {
+            if(!isLocalPlayer)
+            {
+                return;
+            }
+
+            StartAttack(m_SuperPower);
+            //if(Input.GetKeyDown(KeyCode.Z))
+            //{
+            //    Debug.LogError($"[Debug]Input detected!!");
+                
+            //}
+
+            _hasAnimator = TryGetComponent(out _animator);
+
+            JumpAndGravity();
+            GroundedCheck();
+            Move();
+        }
+    */
 }
