@@ -8,8 +8,9 @@ public class EnemyManager : NetworkBehaviour
 {
     [SerializeField] int maxNumEnemies;
     [SerializeField] float spawnDelay;
-    [SerializeField] GameObject enemyToSpawn;
+    [SerializeField] GameObject[] enemyToSpawn;
     [SerializeField] List<Transform> spawnPositions;
+    [SerializeField] Transform targetPosition;
 
     private float curSpawnTime;
     private bool canSpawnEnemy = false;
@@ -35,9 +36,8 @@ public class EnemyManager : NetworkBehaviour
         if (transform.childCount < maxNumEnemies && curSpawnTime <= 0.0f)
         {
             var index = UnityEngine.Random.Range(0, spawnPositions.Count);
-            Vector3 spawnPoint = new Vector3(spawnPositions[index].position.x, spawnPositions[index].position.y, spawnPositions[index].position.z);
             curSpawnTime = spawnDelay;
-            SpawnEnemies(spawnPoint);
+            SpawnEnemies(spawnPositions[index]);
         }
         else
         {
@@ -53,10 +53,12 @@ public class EnemyManager : NetworkBehaviour
     }
 
     [Server]
-    private void SpawnEnemies(Vector3 spawnPoint)
+    private void SpawnEnemies(Transform spawnPoint)
     {
-        GameObject gobj = Instantiate(enemyToSpawn, spawnPoint, Quaternion.identity);
+        var index = UnityEngine.Random.Range(0, enemyToSpawn.Length);
+        GameObject gobj = Instantiate(enemyToSpawn[index], spawnPoint.position,spawnPoint.rotation);
         gobj.transform.SetParent(this.transform);
+        gobj.GetComponent<EnemyController>().target = targetPosition;
         NetworkServer.Spawn(gobj);
     }
 }
