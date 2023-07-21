@@ -10,9 +10,14 @@ public class PlayerCharacterController : NetworkBehaviour
 {
     public Animator animator;
     public float walkSpeed;
-    public float runSpeed;
+    public float JumpHeight = 1.2f;
 
-    private StarterAssetsInputs _input;
+    public Transform groundCheck;
+    public LayerMask groundLayers;
+
+    private Rigidbody rb;
+    private StarterAssetsInputs input;
+    public bool isGrounded;
 
     public override void OnStartAuthority()
     {
@@ -25,7 +30,8 @@ public class PlayerCharacterController : NetworkBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        _input = GetComponent<StarterAssetsInputs>();
+        input = GetComponent<StarterAssetsInputs>();
+        rb = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -35,8 +41,32 @@ public class PlayerCharacterController : NetworkBehaviour
             return;
         }
 
-        //Move the player 
-        Vector3 movement = new Vector3(_input.move.x, 0f, _input.move.y) * walkSpeed * Time.deltaTime;
-        transform.Translate(movement, Space.Self);
+        isGrounded = Physics.CheckSphere(groundCheck.position, 0.2f, groundLayers.value, QueryTriggerInteraction.Ignore);
+
+        if (input.move.magnitude > 0.1f)
+        {
+            animator.SetBool("isMoving", true);
+            transform.Translate(Vector3.forward * walkSpeed * Time.deltaTime, Space.Self);
+        }
+        else
+        {
+            animator.SetBool("isMoving", false);
+        }
+
+        if(isGrounded)
+        {
+            animator.SetBool("isGrounded", true);
+            if(input.jump)
+            {
+                animator.SetBool("isJumping", true);
+                rb.AddForce(Mathf.Sqrt(JumpHeight * -2f * -15f)*Vector3.up);
+            }
+        }
+        else
+        {
+            animator.SetBool("isGrounded", false);
+            animator.SetBool("isJumping", false);
+            input.jump = false;
+        }
     }
 }

@@ -8,12 +8,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerCameraController : NetworkBehaviour
 {
-    //turning speed of camera
     public float lookSensitivity = 1;
     public Transform target;
     public Transform player;
 
-    //input values from mouse
     float mouseX;
     float mouseY;
 
@@ -23,12 +21,11 @@ public class PlayerCameraController : NetworkBehaviour
     {
         _input = this.transform.parent.GetComponent<StarterAssetsInputs>();
 
-        //hiding the cursor during runtime
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (!isLocalPlayer)
         {
@@ -40,15 +37,13 @@ public class PlayerCameraController : NetworkBehaviour
 
     void ControlCamera()
     {
-        mouseX += _input.look.x;
-        mouseY += _input.look.y;
-        mouseY = Mathf.Clamp(mouseY, -35, 60);
+        mouseX += _input.look.x * lookSensitivity;
+        mouseY += _input.look.y * lookSensitivity;
+        mouseY = Mathf.Clamp(mouseY, -20, 20);
 
         transform.LookAt(target);
 
-        //rotate the player
         player.rotation = Quaternion.Euler(0, mouseX, 0);
-        //rotate the camera
         target.rotation = Quaternion.Euler(-mouseY, mouseX, 0);
     }
 }
