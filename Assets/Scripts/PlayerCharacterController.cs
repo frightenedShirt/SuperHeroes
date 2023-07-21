@@ -45,7 +45,6 @@ public class PlayerCharacterController : NetworkBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();
         input = GetComponent<StarterAssetsInputs>();
         rb = GetComponent<Rigidbody>();
 
@@ -55,7 +54,7 @@ public class PlayerCharacterController : NetworkBehaviour
         }
         m_SuperPower = SuperPowers.Freeze;
 
-        this.transform.GetChild(3).gameObject.SetActive(true);
+        this.transform.GetChild(1).gameObject.SetActive(true);
     }
 
     void Update()
@@ -160,25 +159,4 @@ public class PlayerCharacterController : NetworkBehaviour
     {
 
     }
-    /* private void Update()
-        {
-            if(!isLocalPlayer)
-            {
-                return;
-            }
-
-            StartAttack(m_SuperPower);
-            //if(Input.GetKeyDown(KeyCode.Z))
-            //{
-            //    Debug.LogError($"[Debug]Input detected!!");
-                
-            //}
-
-            _hasAnimator = TryGetComponent(out _animator);
-
-            JumpAndGravity();
-            GroundedCheck();
-            Move();
-        }
-    */
 }

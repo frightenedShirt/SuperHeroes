@@ -8,14 +8,14 @@ public class PlayerModel
 
     public SuperPowers m_Ability { get; private set; }
 
-    public PlayerModel(AbilitiesSO _data)
-    {
-        m_IcePower = _data.IcePower;
-        m_Strength = _data.Strength;
-        m_FirePower = _data.FirePower;
-        m_Speed = _data.Speed;
-        CheckForPowers();
-    }
+    //public PlayerModel(AbilitiesSO _data)
+    //{
+    //    m_IcePower = _data.IcePower;
+    //    m_Strength = _data.Strength;
+    //    m_FirePower = _data.FirePower;
+    //    m_Speed = _data.Speed;
+    //    CheckForPowers();
+    //}
 
     private void CheckForPowers()
     {

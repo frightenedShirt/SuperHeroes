@@ -38,7 +38,7 @@ public class PlayerCameraController : NetworkBehaviour
     void ControlCamera()
     {
         mouseX += _input.look.x * lookSensitivity;
-        mouseY += _input.look.y * lookSensitivity;
+        mouseY += _input.look.y * lookSensitivity * -1;
         mouseY = Mathf.Clamp(mouseY, -20, 20);
 
         transform.LookAt(target);
