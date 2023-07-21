@@ -2607,7 +2607,7 @@ MonoBehaviour:
   groundCheck: {fileID: 2789299753203241137}
   groundLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 65537
   isGrounded: 0
 --- !u!1 &7784489639121369407
 GameObject:

@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Terrain_UV_mtl
+  m_Shader: {fileID: -6465566751694194690, guid: aec83147b14ef504990a5649d309dd78, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AO_Map:
+        m_Texture: {fileID: 2800000, guid: f96c834a1dffcc941b2d0675d399dadc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AO_Map_1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AO_Map_2:
+        m_Texture: {fileID: 2800000, guid: 2f75ffeb0338cea4bb6b42815ec764d4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Albedo:
+        m_Texture: {fileID: 2800000, guid: 174438eb6193c2b47b4a1937100a49a8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Albedo_1:
+        m_Texture: {fileID: 2800000, guid: 5e1acf362611957488060eee4178b3f3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Albedo_2:
+        m_Texture: {fileID: 2800000, guid: d817e5dff9e271a45bcf947f0c180215, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 2ba57c46dba97d948ad904287fb02bab, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap_1:
+        m_Texture: {fileID: 2800000, guid: 69e10fcec9984ba4f839a5693383c57e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap_2:
+        m_Texture: {fileID: 2800000, guid: e04e05d3f2f530e4e97dc6e5e350cfa4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AO_amount: 1
+    - _AO_amount_1: 0.75
+    - _AO_amount_2: 1
+    - _Grass_Amount: 0.337
+    - _Grass_Height: 0
+    - _Grass_Power: 6.42
+    - _Grass_Slope: 0.99
+    - _NormalStrength: 1
+    - _NormalStrength_1: 1
+    - _NormalStrength_2: 1
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Snow_Amount: 0.036
+    - _Snow_Height: 0
+    - _Snow_Power: 9.21
+    - _Snow_Slope: 1
+    - _isFlat: 1
+    - _isFlat_1: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
+    - _BaseColor_1: {r: 0.25461787, g: 0.7169812, b: 0.21915273, a: 0}
+    - _BaseColor_2: {r: 1, g: 1, b: 1, a: 0}
+    - _Tiling: {r: 25, g: 25, b: 0, a: 0}
+    - _Tiling_1: {r: 75, g: 75, b: 0, a: 0}
+    - _Tiling_2: {r: 30, g: 30, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!114 &7423196485983171778
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5
