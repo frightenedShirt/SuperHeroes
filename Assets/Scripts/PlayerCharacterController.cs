@@ -32,6 +32,13 @@ public class PlayerCharacterController : NetworkBehaviour
         animator = GetComponent<Animator>();
         input = GetComponent<StarterAssetsInputs>();
         rb = GetComponent<Rigidbody>();
+
+        if(!isLocalPlayer)
+        {
+            return;
+        }
+
+        this.transform.GetChild(3).gameObject.SetActive(true);
     }
 
     void Update()
