@@ -35,6 +35,8 @@ public class PlayerCharacterController : NetworkBehaviour
     [SerializeField] private Transform rayOrigin;
     private float timeLongPress = 0.0f;
 
+    private bool canMove = false;
+
     public override void OnStartAuthority()
     {
         base.OnStartAuthority();
@@ -64,9 +66,14 @@ public class PlayerCharacterController : NetworkBehaviour
             return;
         }
 
+        if(!canMove)
+        {
+            return;
+        }
+
         StartAttack(m_SuperPower);
 
-        isGrounded = Physics.CheckSphere(groundCheck.position, 0.2f, groundLayers.value, QueryTriggerInteraction.Ignore);
+        isGrounded = Physics.CheckSphere(groundCheck.position, 0.1f, groundLayers.value, QueryTriggerInteraction.Ignore);
 
         if (input.move.magnitude > 0.1f)
         {
@@ -84,14 +91,14 @@ public class PlayerCharacterController : NetworkBehaviour
             if(input.jump)
             {
                 animator.SetBool("isJumping", true);
-                rb.AddForce(Mathf.Sqrt(JumpHeight * -2f * -15f)*Vector3.up);
+                rb.AddForce(Vector3.up * JumpHeight);
             }
         }
         else
         {
+            input.jump = false;
             animator.SetBool("isGrounded", false);
             animator.SetBool("isJumping", false);
-            input.jump = false;
         }
     }
 
@@ -158,5 +165,17 @@ public class PlayerCharacterController : NetworkBehaviour
     private void RageAttack(SuperPowers _superPower)
     {
 
+    }
+
+    [TargetRpc]
+    public void DisableInput(NetworkConnectionToClient target)
+    {
+        canMove = false;
+    }
+
+    [TargetRpc]
+    public void EnableInput(NetworkConnectionToClient target)
+    {
+        canMove = true;
     }
 }

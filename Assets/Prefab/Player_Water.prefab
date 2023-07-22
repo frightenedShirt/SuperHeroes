@@ -767,7 +767,7 @@ MonoBehaviour:
   syncInterval: 0
   animator: {fileID: 2673081414709140006}
   walkSpeed: 5
-  JumpHeight: 10
+  JumpHeight: 250
   groundCheck: {fileID: 2789299753203241137}
   groundLayers:
     serializedVersion: 2

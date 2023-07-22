@@ -11,14 +11,13 @@ public class EnemyManager : NetworkBehaviour
     [SerializeField] GameObject[] enemyToSpawn;
     [SerializeField] List<Transform> spawnPositions;
     [SerializeField] Transform targetPosition;
+    [SerializeField] GameManager gameManager;
 
     private float curSpawnTime;
-    private bool canSpawnEnemy = false;
 
     public override void OnStartServer()
     {
         curSpawnTime = spawnDelay;
-        StartCoroutine(DelaySpawnEnemies(10f));
     }
 
     void Update()
@@ -28,7 +27,7 @@ public class EnemyManager : NetworkBehaviour
             return;
         }
 
-        if(!canSpawnEnemy)
+        if(!gameManager.hasGameStarted)
         {
             return;
         }
@@ -43,13 +42,6 @@ public class EnemyManager : NetworkBehaviour
         {
             curSpawnTime -= Time.deltaTime;
         }
-    }
-
-    [Server]
-    private IEnumerator DelaySpawnEnemies(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        canSpawnEnemy = true;
     }
 
     [Server]
