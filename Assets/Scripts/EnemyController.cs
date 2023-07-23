@@ -5,10 +5,12 @@ using Mirror;
 
 public class EnemyController : NetworkBehaviour
 {
-    [SerializeField] Animator animator;
     [SerializeField] float moveSpeed;
     [SerializeField] float rotateSpeed;
     [SerializeField] float stoppingDistance;
+    [SerializeField] Transform shootPoint;
+    [SerializeField] float shootDelay;
+    [SerializeField] GameObject bulletPrefab;
 
     [HideInInspector]
     public Transform target;
@@ -22,8 +24,6 @@ public class EnemyController : NetworkBehaviour
         {
             return;
         }
-
-        animator.SetBool("isMoving", true);
     }
 
     [Server]
@@ -47,9 +47,23 @@ public class EnemyController : NetworkBehaviour
             if (distance < stoppingDistance)
             {
                 canMove = false;
-                animator.SetBool("isMoving", false);
-                animator.SetTrigger("canAttack");
+                StartCoroutine(StartAttacking());
             }
+        }
+    }
+
+    private IEnumerator StartAttacking()
+    {
+        while(true)
+        {
+            Vector3 targetDirection = target.position - shootPoint.position;
+            Vector3 newDirection = Vector3.RotateTowards(shootPoint.forward, targetDirection, 1000f, 0.0f);
+
+            Quaternion newRotation = Quaternion.LookRotation(newDirection);
+
+            GameObject bulletObject = Instantiate(bulletPrefab, shootPoint.position, newRotation);
+            NetworkServer.Spawn(bulletObject);
+            yield return new WaitForSeconds(shootDelay);
         }
     }
 }

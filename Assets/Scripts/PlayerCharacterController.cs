@@ -68,6 +68,7 @@ public class PlayerCharacterController : NetworkBehaviour
 
         if(!canMove)
         {
+            animator.SetBool("isGrounded", true);
             return;
         }
 

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3365598672151199223}
   - component: {fileID: 3365598672151199222}
   - component: {fileID: 3365598672151199221}
+  - component: {fileID: 7487388613784810039}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -73,4 +74,12 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 0}
   - {fileID: 0}
-  gameStartTime: 10
+  gameStartTime: 3
+--- !u!81 &7487388613784810039
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3365598672151199220}
+  m_Enabled: 1

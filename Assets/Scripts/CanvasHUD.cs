@@ -2,10 +2,11 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class CanvasHUD : MonoBehaviour
 {
-    public GameObject panelStart,panelWaiting,panelTutorial;
+    public GameObject panelStart,panelWaiting,panelTutorial,panelGameOver;
     public Button buttonHost, buttonClient;
     public InputField inputFieldAddress;
 
@@ -88,5 +89,10 @@ public class CanvasHUD : MonoBehaviour
                 Debug.Log($"<color=cyan>Client: address = {NetworkManager.singleton.networkAddress}</color>");
             }
         }
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(0);
     }
 }

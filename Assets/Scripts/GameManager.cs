@@ -44,7 +44,7 @@ public class GameManager : NetworkBehaviour
             playerObjects.Add(playerObject);
         }
         DisableWaitingHUD();
-        DisableMenuCamera();
+        DestroyMenuCamera();
         EnableTutorialHUD();
         StartCoroutine(DelayStartGameTimer());
     }
@@ -87,7 +87,7 @@ public class GameManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void DisableMenuCamera()
+    private void DestroyMenuCamera()
     {
         Destroy(menuCamera);
     }
