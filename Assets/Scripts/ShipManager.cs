@@ -102,4 +102,22 @@ public class ShipManager : NetworkBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
     }
+
+    [ClientRpc]
+    private void ShowGameWon()
+    {
+        canvasHUD.panelGameWon.SetActive(true);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void IncreaseHealth(float value)
+    {
+        currentHealth += value;
+        UpdateHealthUI(currentHealth);
+        if(currentHealth >= maxHealth)
+        {
+            ShowGameWon();
+        }
+    }
 }

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class CanvasHUD : MonoBehaviour
 {
-    public GameObject panelStart,panelWaiting,panelTutorial,panelGameOver,panelGameWon;
+    public GameObject panelStart,panelWaiting,panelTutorial,panelGameOver,panelGameWon,panelHUD;
     public Button buttonHost, buttonClient;
     public InputField inputFieldAddress;
 

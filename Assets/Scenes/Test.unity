@@ -747,13 +747,19 @@ PrefabInstance:
     - target: {fileID: 3897115297088322818, guid: bed2f56b8b12a4f7fa3df176f761158a,
         type: 3}
       propertyPath: spawnPrefabs.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3897115297088322818, guid: bed2f56b8b12a4f7fa3df176f761158a,
         type: 3}
       propertyPath: spawnPrefabs.Array.data[4]
       value: 
       objectReference: {fileID: 2565780831370657889, guid: 31913c6207ca643bb96f34c4dba41496,
+        type: 3}
+    - target: {fileID: 3897115297088322818, guid: bed2f56b8b12a4f7fa3df176f761158a,
+        type: 3}
+      propertyPath: spawnPrefabs.Array.data[5]
+      value: 
+      objectReference: {fileID: 7224952741606121682, guid: 92d7a3889ecd444008c8a7ef955df959,
         type: 3}
     - target: {fileID: 3897115297088322829, guid: bed2f56b8b12a4f7fa3df176f761158a,
         type: 3}
@@ -1144,6 +1150,11 @@ PrefabInstance:
       propertyPath: canvasHUD
       value: 
       objectReference: {fileID: 229394258}
+    - target: {fileID: 6896461986233874840, guid: fb4744091690c4b1c873f43c9cbd5e05,
+        type: 3}
+      propertyPath: maxHealth
+      value: 10000000
+      objectReference: {fileID: 0}
     - target: {fileID: 6896461986233874840, guid: fb4744091690c4b1c873f43c9cbd5e05,
         type: 3}
       propertyPath: gameManager

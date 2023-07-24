@@ -61,7 +61,6 @@ public class PlayerCharacterController : NetworkBehaviour
         {
             return;
         }
-        m_SuperPower = SuperPowers.Dash;
 
         this.transform.GetChild(1).gameObject.SetActive(true);
     }
@@ -110,6 +109,20 @@ public class PlayerCharacterController : NetworkBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!isServer)
+        {
+            return;
+        }
+
+        if (collision.gameObject.TryGetComponent<CollectableCrystal>(out CollectableCrystal collectable))
+        {
+            collectable.DoCollect();
+            NetworkManager.Destroy(collision.gameObject);
+        }
+    }
+
     private void StartAttack(SuperPowers _superPowers)
     {
         if (rageMeter >= 10)
@@ -142,12 +155,12 @@ public class PlayerCharacterController : NetworkBehaviour
         switch (_superPower)
         {
             case SuperPowers.Freeze:
-                if (Physics.Raycast(rayOrigin.position, Camera.main.transform.forward, out hitInfo, RayRange, enemyLayer, QueryTriggerInteraction.Collide))
+                Debug.DrawRay(rayOrigin.position, this.transform.GetChild(1).gameObject.transform.forward * RayRange, Color.cyan);
+                if (Physics.Raycast(rayOrigin.position, this.transform.GetChild(1).gameObject.transform.forward, out hitInfo, RayRange, enemyLayer, QueryTriggerInteraction.Collide))
                 {
                     Debug.Log("[Debug]Short Press Freeze power");
                     if(hitInfo.rigidbody.gameObject.TryGetComponent<EnemyController>(out EnemyController enemyController))
-                    {
-                        Debug.DrawRay(rayOrigin.position, rayOrigin.forward * RayRange, Color.red);
+                    {   
                         enemyController.canMove = false;
                         rageMeter++;
                         rageMeterUi.value = rageMeter;
@@ -236,23 +249,6 @@ public class PlayerCharacterController : NetworkBehaviour
                 rb.velocity = new Vector3(0,0,0);
                 StartCoroutine(MovePlayer());
                 break;
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(m_SuperPower == SuperPowers.Dash)
-        {
-            if (collision.gameObject.TryGetComponent<EnemyController>(out EnemyController enemyController))
-            {
-                if (!enemyController.canMove)
-                {
-                    rageMeter++;
-                    rageMeterUi.value = rageMeter;
-                    DropCollectables(enemyController.transform);
-                    Destroy(enemyController.gameObject);
-                }
-            }
         }
     }
 

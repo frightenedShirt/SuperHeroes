@@ -93,6 +93,12 @@ public class GameManager : NetworkBehaviour
         Destroy(menuCamera);
     }
 
+    [ClientRpc]
+    private void EnableMainHUD()
+    {
+        canvasHUD.panelHUD.SetActive(true);
+    }
+
     private IEnumerator DelayStartGameTimer()
     {
         while(gameStartTime > 0)
@@ -105,6 +111,7 @@ public class GameManager : NetworkBehaviour
         hasGameStarted = true;
         SetGameStarted();
         DisableTutorialHUD();
+        EnableMainHUD();
 
         for (int i = 0; i < NetworkManager.singleton.numPlayers; i++)
         {

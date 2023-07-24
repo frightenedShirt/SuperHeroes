@@ -10,6 +10,7 @@ public class EnemyController : NetworkBehaviour
     [SerializeField] Transform shootPoint;
     [SerializeField] float shootDelay;
     [SerializeField] GameObject bulletPrefab;
+    [SerializeField] GameObject crystalPrefab;
 
     [HideInInspector]
     public Transform target;
@@ -54,7 +55,7 @@ public class EnemyController : NetworkBehaviour
 
     private IEnumerator StartAttacking()
     {
-        while(true)
+        while(canMove)
         {
             Vector3 targetDirection = target.position - shootPoint.position;
             Vector3 newDirection = Vector3.RotateTowards(shootPoint.forward, targetDirection, 1000f, 0.0f);
@@ -65,5 +66,46 @@ public class EnemyController : NetworkBehaviour
             NetworkServer.Spawn(bulletObject);
             yield return new WaitForSeconds(shootDelay);
         }
+    }
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!isServer)
+        {
+            return;
+        }
+
+        if (collision.gameObject.TryGetComponent<PlayerCharacterController>(out PlayerCharacterController playerController))
+        {
+            if (!canMove && playerController.m_SuperPower == SuperPowers.Dash)
+            {
+                DropCollectables();
+                NetworkManager.Destroy(this.gameObject);
+            }
+        }
+    }
+
+    private void DropCollectables()
+    {
+        GameObject crystals = Instantiate(crystalPrefab, transform.position, Quaternion.identity);
+        NetworkServer.Spawn(crystals);
+        if(crystals.TryGetComponent<CollectableCrystal>(out CollectableCrystal collectable))
+        {
+            collectable.shipManager = target.GetComponent<ShipManager>();
+        }
+    }
+
+    [Command(requiresAuthority =false)]
+    public void CMDStopMove()
+    {
+        canMove = false;
+        StopMove();
+    }
+
+    [ClientRpc]
+    public void StopMove()
+    {
+        canMove = false;
     }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4675524352375093932}
   - component: {fileID: 8519844293033480574}
   - component: {fileID: 1608838164420620232}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Cone010
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7384238365755710972}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Flap2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 7782527037260217521}
   - component: {fileID: 3548184613862274777}
   - component: {fileID: 4853746478284075557}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Cone012
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 3417175131307913305}
   - component: {fileID: 2572691597798160415}
   - component: {fileID: 8284496440565731066}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Cone1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -291,7 +291,7 @@ GameObject:
   - component: {fileID: 1151005478673948210}
   - component: {fileID: 7266723498248467497}
   - component: {fileID: 3281961569180156492}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: ConeBleu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -372,7 +372,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8653890241064327554}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -410,7 +410,7 @@ GameObject:
   - component: {fileID: 6335575855708737902}
   - component: {fileID: 4097358199940295820}
   - component: {fileID: 5324877641792586657}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Cone007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -491,7 +491,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 305774883679062547}
-  m_Layer: 13
+  m_Layer: 23
   m_Name: ShootPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -522,7 +522,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8588310902190058784}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: FireTert
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -560,7 +560,7 @@ GameObject:
   - component: {fileID: 4747661012739183744}
   - component: {fileID: 6480258566590039149}
   - component: {fileID: 4985230634629077369}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Cone006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -643,7 +643,7 @@ GameObject:
   - component: {fileID: 1226934556794742990}
   - component: {fileID: 7050652579056906772}
   - component: {fileID: 5923829924536578685}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Cone2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -726,7 +726,7 @@ GameObject:
   - component: {fileID: 5745899312705583872}
   - component: {fileID: 6083855817834839246}
   - component: {fileID: 2889876775813018494}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Cone3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -807,7 +807,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 785176812626825880}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: ArmL2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -841,7 +841,7 @@ GameObject:
   - component: {fileID: 5919892342891510754}
   - component: {fileID: 8953358888076633475}
   - component: {fileID: 9009851359143081112}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Cone008
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -924,7 +924,7 @@ GameObject:
   - component: {fileID: 8011529082672297649}
   - component: {fileID: 6482866444571546199}
   - component: {fileID: 1257112814932745867}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: ConeBleu001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1005,7 +1005,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1010023944664840294}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: ArmR1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1039,7 +1039,7 @@ GameObject:
   - component: {fileID: 5125003632401502708}
   - component: {fileID: 479457263221050811}
   - component: {fileID: 1286347646706018592}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Cone4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1122,7 +1122,7 @@ GameObject:
   - component: {fileID: 8295552641331552171}
   - component: {fileID: 6937874570705996226}
   - component: {fileID: 3412566341644803383}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Cone005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1203,7 +1203,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 474528909553473603}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Flap3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1236,7 +1236,7 @@ GameObject:
   - component: {fileID: 4944760468623233641}
   - component: {fileID: 2323538318032604188}
   - component: {fileID: 5602068800965225239}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Cone009
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1319,7 +1319,7 @@ GameObject:
   - component: {fileID: 1160176381242741375}
   - component: {fileID: 5880021856785551470}
   - component: {fileID: 8019788490616043447}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Cone011
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1402,7 +1402,7 @@ GameObject:
   - component: {fileID: 6321001033362594868}
   - component: {fileID: 2297146688806487369}
   - component: {fileID: 7989147672812038386}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: ConeBleu002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1483,7 +1483,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3322333570966966136}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: FireBis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1519,7 +1519,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7370641980550800966}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Flap1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1550,7 +1550,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6413557422282237754}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1589,7 +1589,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 717217927851932476}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: PinceR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1625,7 +1625,7 @@ GameObject:
   - component: {fileID: 8047781937837910759}
   - component: {fileID: 7353122705905533289}
   - component: {fileID: 3143368218798042942}
-  m_Layer: 13
+  m_Layer: 23
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1736,8 +1736,11 @@ MonoBehaviour:
   shootDelay: 3
   bulletPrefab: {fileID: 5944311780199764626, guid: 9e6d5b46786344e2ab2d306b3009d518,
     type: 3}
+  crystalPrefab: {fileID: 7224952741606121682, guid: 92d7a3889ecd444008c8a7ef955df959,
+    type: 3}
   target: {fileID: 0}
   canMove: 1
+  reachedShip: 0
 --- !u!54 &3143368218798042942
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1764,7 +1767,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1525016797570651855}
   - component: {fileID: 7939888373607118115}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: droid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1859,7 +1862,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7448415856302820075}
   - component: {fileID: 1861679432321712521}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1913,7 +1916,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1752694292023564584}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: ArmL1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1945,7 +1948,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4738134951235228471}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: PinceL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1976,7 +1979,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6336592291936011269}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: ArmR2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
