@@ -66,6 +66,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  rageMeter: {fileID: 0}
   menuCamera: {fileID: 0}
   canvasHUD: {fileID: 0}
   characterPrefabs:
@@ -75,6 +76,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   gameStartTime: 3
+  SuperPowers: 
 --- !u!81 &7487388613784810039
 AudioListener:
   m_ObjectHideFlags: 0

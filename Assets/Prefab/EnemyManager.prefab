@@ -73,5 +73,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
   targetPosition: {fileID: 0}
   gameManager: {fileID: 0}

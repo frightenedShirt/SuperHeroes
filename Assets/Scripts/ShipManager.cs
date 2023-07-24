@@ -19,7 +19,7 @@ public class ShipManager : NetworkBehaviour
     {
         currentHealth = maxHealth / 2f;
         slider.maxValue = maxHealth;
-        slider.value = maxHealth;
+        slider.value = currentHealth;
 
         if (isServerOnly)
         {

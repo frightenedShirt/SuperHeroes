@@ -378,6 +378,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &808888466 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1924097047138948148, guid: 6cfb9aabc0da94ea5b646e35762c42ff,
+    type: 3}
+  m_PrefabInstance: {fileID: 3521071323990771963}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &880150092 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6052880003163680368, guid: ac9438e75354e4793b25370e2d379304,
@@ -433,6 +445,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1198654725 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1198654725, guid: 0f9b9ce793b484f4ab4985fc2cce89d7,
+    type: 3}
+  m_PrefabInstance: {fileID: 4344541833069714915}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1603035809 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6695026471340554934, guid: 39de98dd134f74541aed5b9b7422c8ed,
@@ -536,6 +554,11 @@ PrefabInstance:
       propertyPath: canvasHUD
       value: 
       objectReference: {fileID: 229394258}
+    - target: {fileID: 3365598672151199221, guid: ae2afd6053ddd47cd8539563d59cca54,
+        type: 3}
+      propertyPath: rageMeter
+      value: 
+      objectReference: {fileID: 808888466}
     - target: {fileID: 3365598672151199221, guid: ae2afd6053ddd47cd8539563d59cca54,
         type: 3}
       propertyPath: menuCamera
@@ -744,23 +767,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: NetworkManager
       objectReference: {fileID: 0}
-    - target: {fileID: 3897115297088322818, guid: bed2f56b8b12a4f7fa3df176f761158a,
-        type: 3}
-      propertyPath: spawnPrefabs.Array.size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3897115297088322818, guid: bed2f56b8b12a4f7fa3df176f761158a,
-        type: 3}
-      propertyPath: spawnPrefabs.Array.data[4]
-      value: 
-      objectReference: {fileID: 2565780831370657889, guid: 31913c6207ca643bb96f34c4dba41496,
-        type: 3}
-    - target: {fileID: 3897115297088322818, guid: bed2f56b8b12a4f7fa3df176f761158a,
-        type: 3}
-      propertyPath: spawnPrefabs.Array.data[5]
-      value: 
-      objectReference: {fileID: 7224952741606121682, guid: 92d7a3889ecd444008c8a7ef955df959,
-        type: 3}
     - target: {fileID: 3897115297088322829, guid: bed2f56b8b12a4f7fa3df176f761158a,
         type: 3}
       propertyPath: m_RootOrder
@@ -919,6 +925,11 @@ PrefabInstance:
       propertyPath: spawnPositions.Array.data[2]
       value: 
       objectReference: {fileID: 333328407}
+    - target: {fileID: 2046268245652677687, guid: 406a05d594dd1481095512ea9ea5a10d,
+        type: 3}
+      propertyPath: spawnPositions.Array.data[3]
+      value: 
+      objectReference: {fileID: 1198654725}
     - target: {fileID: 6037201178087090519, guid: 406a05d594dd1481095512ea9ea5a10d,
         type: 3}
       propertyPath: sceneId
@@ -1150,11 +1161,6 @@ PrefabInstance:
       propertyPath: canvasHUD
       value: 
       objectReference: {fileID: 229394258}
-    - target: {fileID: 6896461986233874840, guid: fb4744091690c4b1c873f43c9cbd5e05,
-        type: 3}
-      propertyPath: maxHealth
-      value: 10000000
-      objectReference: {fileID: 0}
     - target: {fileID: 6896461986233874840, guid: fb4744091690c4b1c873f43c9cbd5e05,
         type: 3}
       propertyPath: gameManager

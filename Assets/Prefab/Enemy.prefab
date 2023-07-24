@@ -1625,6 +1625,7 @@ GameObject:
   - component: {fileID: 8047781937837910759}
   - component: {fileID: 7353122705905533289}
   - component: {fileID: 3143368218798042942}
+  - component: {fileID: 5813655456094574638}
   m_Layer: 23
   m_Name: Enemy
   m_TagString: Untagged
@@ -1729,14 +1730,16 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  moveSpeed: 0.5
-  rotateSpeed: 5
-  stoppingDistance: 10
+  moveSpeed: 10
+  rotateSpeed: 25
+  stoppingDistance: 20
   shootPoint: {fileID: 305774883679062547}
   shootDelay: 3
   bulletPrefab: {fileID: 5944311780199764626, guid: 9e6d5b46786344e2ab2d306b3009d518,
     type: 3}
   crystalPrefab: {fileID: 7224952741606121682, guid: 92d7a3889ecd444008c8a7ef955df959,
+    type: 3}
+  shieldPrefab: {fileID: 9027514048236820045, guid: effb650189dc5714e9e9801b1cfb3991,
     type: 3}
   target: {fileID: 0}
   canMove: 1
@@ -1755,8 +1758,31 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 124
   m_CollisionDetection: 0
+--- !u!114 &5813655456094574638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7582985786812839199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83392ae5c1b731446909f252fd494ae4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 3143368218798042942}
+  clientAuthority: 0
+  syncVelocity: 1
+  clearVelocity: 0
+  velocitySensitivity: 0.1
+  syncAngularVelocity: 1
+  clearAngularVelocity: 0
+  angularVelocitySensitivity: 0.1
 --- !u!1 &7693945046229343545
 GameObject:
   m_ObjectHideFlags: 0

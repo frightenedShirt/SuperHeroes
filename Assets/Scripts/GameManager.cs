@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : NetworkBehaviour
 {
+    public Slider rageMeter;
     public GameObject menuCamera;
     public CanvasHUD canvasHUD;
     public GameObject[] characterPrefabs;
@@ -43,6 +45,7 @@ public class GameManager : NetworkBehaviour
             GameObject playerObject = Instantiate(characterPrefabs[i], spawnPoints[i].position,Quaternion.identity);
             NetworkServer.ReplacePlayerForConnection(playerID[i], playerObject, true);
             playerObjects.Add(playerObject);
+            playerObject.GetComponent<PlayerCharacterController>().gameManager = this;
         }
         DisableWaitingHUD();
         DestroyMenuCamera();
@@ -97,6 +100,12 @@ public class GameManager : NetworkBehaviour
     private void EnableMainHUD()
     {
         canvasHUD.panelHUD.SetActive(true);
+    }
+
+    [TargetRpc]
+    public void UpdateRageMeter(NetworkConnectionToClient target, float value)
+    {
+        rageMeter.value = value;
     }
 
     private IEnumerator DelayStartGameTimer()

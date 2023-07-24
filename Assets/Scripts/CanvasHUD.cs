@@ -39,20 +39,26 @@ public class CanvasHUD : MonoBehaviour
 
     public void ButtonHost()
     {
+        Debug.LogError("HostButton");
         NetworkManager.singleton.StartHost();
         SetupCanvas();
+        
     }
 
     public void ButtonServer()
     {
+        Debug.LogError("ServerButton");
         NetworkManager.singleton.StartServer();
         SetupCanvas();
+        
     }
 
     public void ButtonClient()
     {
+        Debug.LogError("ClientButton");
         NetworkManager.singleton.StartClient();
         SetupCanvas();
+        
     }
 
     public void SetupCanvas()

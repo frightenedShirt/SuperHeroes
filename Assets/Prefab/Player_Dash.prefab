@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 246441570922860162}
   - component: {fileID: 6164202591833216248}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SuperHero_Dash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -66,7 +66,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4433405495381137425}
   - component: {fileID: 9020928560898684844}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: AVG_Captain_America_The_First_Avenger_Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -152,7 +152,7 @@ GameObject:
   - component: {fileID: 6794079640201756826}
   - component: {fileID: 2286482331352477549}
   - component: {fileID: 9148309080772780769}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LevelCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,7 +205,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 512
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -240,7 +240,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -259,7 +259,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2696939150979765469}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PlayerCameraRoot
   m_TagString: CinemachineTarget
   m_Icon: {fileID: 0}
@@ -291,7 +291,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7192691229479755088}
   - component: {fileID: 4239842459159439011}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SPD_Spider_Man
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -378,7 +378,7 @@ GameObject:
   - component: {fileID: 2482022930082036274}
   - component: {fileID: 4602328077915554979}
   - component: {fileID: 3014787834671468435}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: MainCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -432,7 +432,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294954295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -468,7 +468,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -506,7 +506,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4680871453371336439}
   - component: {fileID: 4054200788665133112}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: AVG_Captain_America_The_First_Avenger_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -590,7 +590,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2789299753203241137}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -629,7 +629,7 @@ GameObject:
   - component: {fileID: 1689217896640695025}
   - component: {fileID: 1523016343205398313}
   - component: {fileID: 6066187491697240938}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Player_Dash
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -890,23 +890,27 @@ MonoBehaviour:
   animator: {fileID: 6164202591833216248}
   walkSpeed: 5
   JumpHeight: 250
+  isGrounded: 0
   groundCheck: {fileID: 2789299753203241137}
-  groundLayers:
-    serializedVersion: 2
-    m_Bits: 65537
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8388608
-  isGrounded: 0
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 65537
+  m_SuperPower: 2
+  gameManager: {fileID: 0}
   layer:
     serializedVersion: 2
     m_Bits: 16
-  ramp: {fileID: 0}
+  ramp: {fileID: 2565780831370657889, guid: 31913c6207ca643bb96f34c4dba41496, type: 3}
+  crystalPrefabs: {fileID: 7224952741606121682, guid: 92d7a3889ecd444008c8a7ef955df959,
+    type: 3}
   rampPrefab: {fileID: 2565780831370657889, guid: 31913c6207ca643bb96f34c4dba41496,
     type: 3}
   rayOrigin: {fileID: 865565379494589350}
-  maxScale: {x: 10, y: 2, z: 0.1}
-  m_SuperPower: 2
+  maxScale: {x: 0.5, y: 2, z: 2}
+  isDashing: 0
 --- !u!1 &8752051699508572355
 GameObject:
   m_ObjectHideFlags: 0
@@ -916,7 +920,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 865565379494589350}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}

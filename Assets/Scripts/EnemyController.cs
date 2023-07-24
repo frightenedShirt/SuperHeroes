@@ -11,6 +11,7 @@ public class EnemyController : NetworkBehaviour
     [SerializeField] float shootDelay;
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] GameObject crystalPrefab;
+    [SerializeField] GameObject shieldPrefab;
 
     [HideInInspector]
     public Transform target;
@@ -78,8 +79,10 @@ public class EnemyController : NetworkBehaviour
 
         if (collision.gameObject.TryGetComponent<PlayerCharacterController>(out PlayerCharacterController playerController))
         {
-            if (!canMove && playerController.m_SuperPower == SuperPowers.Dash)
+            Debug.LogError("GOt Player COntroller in collision");
+            if (!canMove && playerController.m_SuperPower == SuperPowers.Dash && playerController.isDashing)
             {
+                Debug.LogError("Player Hit");
                 DropCollectables();
                 NetworkManager.Destroy(this.gameObject);
             }
@@ -100,12 +103,25 @@ public class EnemyController : NetworkBehaviour
     public void CMDStopMove()
     {
         canMove = false;
-        StopMove();
+        reachedShip = true;
+        GetComponent<Rigidbody>().isKinematic = true;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+        GameObject shield = Instantiate(shieldPrefab, transform.position, Quaternion.identity);
+        shield.transform.SetParent(this.transform,false);
+        shield.transform.localPosition = new Vector3(0f, 1f, 0f);
+        NetworkServer.Spawn(shield);
+        StopMove(shield.GetComponent<NetworkIdentity>().netId);
     }
 
     [ClientRpc]
-    public void StopMove()
+    public void StopMove(uint id)
     {
         canMove = false;
+        reachedShip = true;
+        GetComponent<Rigidbody>().isKinematic = true;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+        GameObject shield = NetworkClient.spawned[id].gameObject;
+        shield.transform.SetParent(this.transform, false);
+        shield.transform.localPosition = new Vector3(0f, 1f, 0f);
     }
 }

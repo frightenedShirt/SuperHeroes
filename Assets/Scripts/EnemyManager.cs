@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System.Collections;
 
 public class EnemyManager : NetworkBehaviour
 {
@@ -16,6 +17,7 @@ public class EnemyManager : NetworkBehaviour
     public override void OnStartServer()
     {
         curSpawnTime = spawnDelay;
+        StartCoroutine(SpawnFirstEnemy());
     }
 
     void Update()
@@ -50,5 +52,12 @@ public class EnemyManager : NetworkBehaviour
         gobj.transform.SetParent(this.transform);
         gobj.GetComponent<EnemyController>().target = targetPosition;
         NetworkServer.Spawn(gobj);
+    }
+
+    private IEnumerator SpawnFirstEnemy()
+    {
+        yield return new WaitUntil(() => gameManager.hasGameStarted);
+        var index = UnityEngine.Random.Range(0, spawnPositions.Count);
+        SpawnEnemies(spawnPositions[index]);
     }
 }
