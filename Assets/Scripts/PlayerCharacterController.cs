@@ -3,7 +3,7 @@ using Mirror;
 using StarterAssets;
 using System.Collections.Generic;
 using System.Collections;
-
+using UnityEngine.UI;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -13,38 +13,35 @@ public class PlayerCharacterController : NetworkBehaviour
     public Animator animator;
     public float walkSpeed;
     public float JumpHeight = 1.2f;
+    public Slider rageMeterUi;
 
+    public bool isGrounded;
     public Transform groundCheck;
-    public LayerMask groundLayers;
     public LayerMask enemyLayer;
+    public LayerMask groundLayers;
+    public SuperPowers m_SuperPower;
 
     private Rigidbody rb;
     private StarterAssetsInputs input;
-    public bool isGrounded;
 
-    private float powerMeter = 0;
-    private PlayerModel playerModel;
-
-    // power up
     [SerializeField] private LayerMask layer;
     [SerializeField] private GameObject ramp;
     [SerializeField] private GameObject crystalPrefabs;
     [SerializeField] private GameObject rampPrefab;
     [SerializeField] private Transform rayOrigin;
     [SerializeField] private Vector3 maxScale;
-    public SuperPowers m_SuperPower;
+
     private RaycastHit hitInfo;
+    private List<Vector3> enemyPosList;
+    private Coroutine dashPlayerRage;
     private float RaycastDistance = 10.0f;
     private float DashSpeed = 25.0f;
-    private LineRenderer trail;
     private float RayRange = 50;
     private float timeLongPress = 0.0f;
-    private List<Vector3> enemyPosList;
+    private float SuperDashSpeed = 1000f;
+    private float rageMeter = 0;
     private bool canMove = false;
     private bool isDashing = false;
-    private Coroutine dashPlayerRage;
-    private float rageMeter = 0;
-    private float SuperDashSpeed = 1000f;
     private int speed = 0;
 
     public override void OnStartAuthority()
@@ -115,7 +112,7 @@ public class PlayerCharacterController : NetworkBehaviour
 
     private void StartAttack(SuperPowers _superPowers)
     {
-        if (rageMeter >= 100)
+        if (rageMeter >= 10)
         {
             RageAttack(_superPowers);
             return;
@@ -138,11 +135,6 @@ public class PlayerCharacterController : NetworkBehaviour
                 LongPressAttack(_superPowers);
             }
         }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            
-        }
     }
 
     private void ShortPressAttack(SuperPowers _superPower)
@@ -150,20 +142,26 @@ public class PlayerCharacterController : NetworkBehaviour
         switch (_superPower)
         {
             case SuperPowers.Freeze:
-                if (Physics.Raycast(rayOrigin.position, rayOrigin.forward, out hitInfo, RayRange, enemyLayer, QueryTriggerInteraction.Collide))
+                if (Physics.Raycast(rayOrigin.position, Camera.main.transform.forward, out hitInfo, RayRange, enemyLayer, QueryTriggerInteraction.Collide))
                 {
                     Debug.Log("[Debug]Short Press Freeze power");
                     if(hitInfo.rigidbody.gameObject.TryGetComponent<EnemyController>(out EnemyController enemyController))
                     {
                         Debug.DrawRay(rayOrigin.position, rayOrigin.forward * RayRange, Color.red);
                         enemyController.canMove = false;
+                        rageMeter++;
+                        rageMeterUi.value = rageMeter;
                     }
                 }
                 break;
             case SuperPowers.Dash:
-                Debug.Log("[Debug]Short Press Dash power");
-                rb.AddForce(transform.forward * DashSpeed, ForceMode.Impulse);
-                isDashing = true;
+                if(!isDashing)
+                {
+                    Debug.Log("[Debug]Short Press Dash power");
+                    rb.AddForce(transform.forward * DashSpeed, ForceMode.Impulse);
+                    isDashing = true;
+                    StartCoroutine(StopPlayer());
+                }
                 break;
         }
     }
@@ -181,21 +179,33 @@ public class PlayerCharacterController : NetworkBehaviour
                 }
                 break;
             case SuperPowers.Dash:
-                Debug.Log("[Debug]Short Press Dash power");
-                if(speed <= SuperDashSpeed)
+                if(!isDashing)
                 {
-                    speed += 2;
+                    Debug.Log("[Debug]Short Press Dash power");
+                    if (speed <= SuperDashSpeed)
+                    {
+                        speed += 2;
+                    }
+                    rb.AddForce(transform.forward * (speed + DashSpeed), ForceMode.Force);
+                    isDashing = true;
+                    StartCoroutine(StopPlayer());
                 }
-                rb.AddForce(transform.forward * speed, ForceMode.Force);
-                isDashing = true;
                 break;
         }
+    }
+
+    private IEnumerator StopPlayer()
+    {
+        yield return new WaitForSecondsRealtime(3);
+        isDashing = false;
+        rb.velocity = new Vector3(0,0,0);
     }
 
     private void RageAttack(SuperPowers _superPower)
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 10.0f, enemyLayer, QueryTriggerInteraction.Ignore);
         rageMeter = 0;
+        rageMeterUi.value = rageMeter;
         switch (_superPower)
         {
             case SuperPowers.Freeze:
@@ -205,6 +215,8 @@ public class PlayerCharacterController : NetworkBehaviour
                     {
                         Debug.Log("[Debug] Collider Detected");
                         enemyController.canMove = false;
+                        rageMeter++;
+                        rageMeterUi.value = rageMeter;
                     }
                 }
                 break;
@@ -213,13 +225,15 @@ public class PlayerCharacterController : NetworkBehaviour
                 {
                     if (hitCollider.gameObject.TryGetComponent<EnemyController>(out EnemyController enemyController))
                     {
+                        isDashing = true;
                         Debug.Log("[Debug] Collider Detected");
-                        if(enemyController.canMove == false)
+                        if (enemyController.canMove == false)
                         {
                             enemyPosList.Add(hitCollider.gameObject.transform.position);
                         }
                     }
                 }
+                rb.velocity = new Vector3(0,0,0);
                 StartCoroutine(MovePlayer());
                 break;
         }
@@ -233,14 +247,12 @@ public class PlayerCharacterController : NetworkBehaviour
             {
                 if (!enemyController.canMove)
                 {
+                    rageMeter++;
+                    rageMeterUi.value = rageMeter;
                     DropCollectables(enemyController.transform);
-                    Object.Destroy(enemyController.gameObject);
+                    Destroy(enemyController.gameObject);
                 }
             }
-        }
-        if(collision.gameObject.TryGetComponent<Collectable>(out Collectable collectable))
-        {
-            //collectable.gameObject
         }
     }
 
