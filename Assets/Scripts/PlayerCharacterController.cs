@@ -1,8 +1,6 @@
 using UnityEngine;
 using Mirror;
 using StarterAssets;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using UnityEditor.PackageManager;
 
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;

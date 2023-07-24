@@ -1,4 +1,3 @@
-
 public class PlayerModel
 {
     public float m_IcePower { get; private set; }
