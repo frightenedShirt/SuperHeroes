@@ -894,6 +894,9 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 65537
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 8388608
   isGrounded: 0
   layer:
     serializedVersion: 2
