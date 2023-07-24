@@ -2,6 +2,7 @@ using UnityEngine;
 using Mirror;
 using StarterAssets;
 using System.Collections.Generic;
+using System.Collections;
 
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -25,17 +26,24 @@ public class PlayerCharacterController : NetworkBehaviour
     private PlayerModel playerModel;
 
     // power up
-    private SuperPowers m_SuperPower;
     [SerializeField] private LayerMask layer;
+    [SerializeField] private GameObject ramp;
+    [SerializeField] private GameObject rampPrefab;
+    [SerializeField] private Transform rayOrigin;
+    [SerializeField] private Vector3 maxScale;
+    private SuperPowers m_SuperPower;
     private RaycastHit hitInfo;
     private float RaycastDistance = 10.0f;
     private float DashSpeed = 10.0f;
     private LineRenderer trail;
     private float RayRange = 50;
-    [SerializeField] private Transform rayOrigin;
     private float timeLongPress = 0.0f;
-    private List<Vector3> enemyPos;
+    private List<Vector3> enemyPosList;
     private bool canMove = false;
+    private bool isDashing = false;
+    private Coroutine dashPlayerRage;
+    private float rageMeter = 0;
+    private float SuperDashSpeed = 1000f;
 
     public override void OnStartAuthority()
     {
@@ -105,7 +113,13 @@ public class PlayerCharacterController : NetworkBehaviour
 
     private void StartAttack(SuperPowers _superPowers)
     {
-        if (Input.GetMouseButtonDown(0))
+        if (rageMeter >= 100)
+        {
+            RageAttack(_superPowers);
+            return;
+        }
+
+        if (Input.GetMouseButtonUp(0))
         {
             Debug.Log("[Debug]Short Press Input");
             ShortPressAttack(_superPowers);
@@ -113,18 +127,17 @@ public class PlayerCharacterController : NetworkBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            Debug.Log("[Debug]Long Press Input");
-            LongPressAttack(_superPowers);
+            timeLongPress += Time.deltaTime;
+            if (timeLongPress >= 2.0)
+            {
+                Debug.Log("[Debug]Long Press Input");
+                LongPressAttack(_superPowers);
+            }
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             timeLongPress = 0;
-        }
-
-        if (powerMeter >= 100)
-        {
-            RageAttack(_superPowers);
         }
     }
 
@@ -139,33 +152,48 @@ public class PlayerCharacterController : NetworkBehaviour
                     Debug.DrawRay(rayOrigin.position, rayOrigin.forward * RayRange, Color.red);
                 }
                 break;
+            case SuperPowers.Dash:
+                Debug.Log("[Debug]Short Press Dash power");
+                rb.AddForce(transform.forward * DashSpeed, ForceMode.Force);
+                isDashing = true;
+                break;
         }
     }
 
     private void LongPressAttack(SuperPowers _superPower)
     {
+        int speed = 0;
         switch (_superPower)
         {
             case SuperPowers.Freeze:
-                timeLongPress += Time.deltaTime;
-                if(timeLongPress >= 2.0)
+                Debug.Log("[Debug]Long Press Freeze power1");
+                ramp = Instantiate(rampPrefab, transform.forward * 2, Quaternion.identity, null);
+                if(rampPrefab.transform.localScale.x <= maxScale.x && rampPrefab.transform.localScale.y <= maxScale.y && rampPrefab.transform.localScale.z <= maxScale.z)
                 {
-                    Debug.Log("[Debug]Long Press Freeze power1");
-                    //Physics.Raycast(rayOrigin.position, rayOrigin.forward, out hitInfo, RayRange, layer, QueryTriggerInteraction.Collide);
-                    if (Physics.Raycast(rayOrigin.position, rayOrigin.forward, out hitInfo, RayRange, layer, QueryTriggerInteraction.Collide))
-                    {
-                        Debug.Log("[Debug]Long Press Freeze power2");
-                        Debug.DrawRay(rayOrigin.position, rayOrigin.forward * RayRange, Color.red);
-                    }
+                    rampPrefab.transform.localScale += new Vector3(0, 0, 2);
                 }
+                //if (Physics.Raycast(rayOrigin.position, rayOrigin.forward, out hitInfo, RayRange, layer, QueryTriggerInteraction.Collide))
+                //{
+                //    Debug.Log("[Debug]Long Press Freeze power2");
+                //    Debug.DrawRay(rayOrigin.position, rayOrigin.forward * RayRange, Color.red);
+                //}
                 break;
-                
+            case SuperPowers.Dash:
+                Debug.Log("[Debug]Short Press Dash power");
+                if(speed <= SuperDashSpeed)
+                {
+                    speed += 2;
+                }
+                rb.AddForce(transform.forward * speed, ForceMode.Force);
+                isDashing = true;
+                break;
         }
     }
 
     private void RageAttack(SuperPowers _superPower)
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 10.0f, enemyLayer, QueryTriggerInteraction.Ignore);
+        rageMeter = 0;
         switch (_superPower)
         {
             case SuperPowers.Freeze:
@@ -186,11 +214,30 @@ public class PlayerCharacterController : NetworkBehaviour
                         Debug.Log("[Debug] Collider Detected");
                         if(enemyController.canMove == false)
                         {
-                            enemyPos.Add(hitCollider.gameObject.transform.position);
+                            enemyPosList.Add(hitCollider.gameObject.transform.position);
                         }
                     }
                 }
+                StartCoroutine(MovePlayer());
                 break;
+        }
+    }
+
+    private IEnumerator MovePlayer()
+    {
+        for(int i = 0; i < enemyPosList.Count; i++)
+        {
+            dashPlayerRage = StartCoroutine(RagePlayerDashRoutine(i));
+            yield return dashPlayerRage;
+        }
+    }
+
+    private IEnumerator RagePlayerDashRoutine(int currentPos)
+    {
+        while (transform.position != enemyPosList[currentPos])
+        {
+            transform.position = Vector3.MoveTowards(transform.position, enemyPosList[currentPos], SuperDashSpeed * Time.deltaTime);
+            yield return null;
         }
     }
 
