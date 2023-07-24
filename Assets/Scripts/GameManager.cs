@@ -9,9 +9,9 @@ public class GameManager : NetworkBehaviour
     public CanvasHUD canvasHUD;
     public GameObject[] characterPrefabs;
     public Transform[] spawnPoints;
-    public float gameStartTime = 10f;
+    public float gameStartTime = 2f;
     public bool hasGameStarted { get; private set; }
-
+    public List<SuperPowers> SuperPowers = new();
     private List<NetworkConnectionToClient> playerID = new();
     private List<GameObject> playerObjects = new();
 
@@ -28,19 +28,21 @@ public class GameManager : NetworkBehaviour
         {
             return;
         }
-
+        SuperPowers.Add(global::SuperPowers.Dash);
+        SuperPowers.Add(global::SuperPowers.Freeze);
         StartCoroutine(DelayStartGame());
     }
 
     private IEnumerator DelayStartGame()
     {
         yield return new WaitUntil(() => NetworkManager.singleton.isActiveAndEnabled && NetworkManager.singleton.numPlayers >= 2 && playerID.Count >=2);
-        Debug.LogError($"[TEST] 2 player joined");
+        Debug.Log($"[Debug] 2 player joined");
         for (int i = 0; i < NetworkManager.singleton.numPlayers; i++)
         {
-            Debug.LogError($"Player Replaced");
+            Debug.Log($"[Debug]Player Replaced");
             GameObject playerObject = Instantiate(characterPrefabs[i], spawnPoints[i].position,Quaternion.identity);
             NetworkServer.ReplacePlayerForConnection(playerID[i], playerObject, true);
+            AssignPowers(playerObject.GetComponent<NetworkIdentity>().netId, SuperPowers[i]);
             playerObjects.Add(playerObject);
         }
         DisableWaitingHUD();
@@ -53,7 +55,17 @@ public class GameManager : NetworkBehaviour
     private void AddPlayerID(NetworkConnectionToClient sender = null)
     {
         playerID.Add(sender);
-        Debug.LogError($"Added Player ID");
+        Debug.Log($"[Debug]Added Player ID");
+    }
+
+    [ClientRpc]
+    private void AssignPowers(uint playerNetId, SuperPowers power)
+    {
+        //GameObject gameObject = networkspa
+        //if (playerNetId.TryGetComponent<PlayerCharacterController>(out PlayerCharacterController playerCharacterController))
+        //{
+        //    playerCharacterController.m_SuperPower = power;
+        //}
     }
 
     [ClientRpc]

@@ -14,7 +14,7 @@ public class EnemyController : NetworkBehaviour
     [HideInInspector]
     public Transform target;
 
-    private bool canMove = true;
+    public bool canMove = true;
 
     [Server]
     private void Start()

@@ -1,6 +1,7 @@
 using UnityEngine;
 using Mirror;
 using Cinemachine;
+
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -87,7 +88,19 @@ namespace StarterAssets
         private float _targetRotation = 0.0f;
         private float _rotationVelocity;
         private float _verticalVelocity;
+        private float powerMeter = 0;
         private float _terminalVelocity = 53.0f;
+        private PlayerModel playerModel;
+
+        // power up
+        private SuperPowers m_SuperPower;
+        [SerializeField] private LayerMask layer;
+        private RaycastHit hitInfo;
+        private float RaycastDistance = 10.0f;
+        private float DashSpeed = 10.0f;
+        private LineRenderer trail;
+        private float RayRange = 50;
+        [SerializeField] private Transform rayOrigin;
 
         // timeout deltatime
         private float _jumpTimeoutDelta;
@@ -124,7 +137,6 @@ namespace StarterAssets
             }
         }
 
-
         private void Awake()
         {
             // get a reference to our main camera
@@ -132,15 +144,17 @@ namespace StarterAssets
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
+            //m_SuperPower = playerModel.m_Ability;
         }
 
         private void Start()
         {
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
-
+            m_SuperPower = SuperPowers.Freeze;
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
+            //trail = GetComponent<LineRenderer>();
 #if ENABLE_INPUT_SYSTEM 
             _playerInput = GetComponent<PlayerInput>();
 #else
@@ -152,6 +166,32 @@ namespace StarterAssets
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
+
+            //switch (m_SuperPower)
+            //{
+            //    case SuperPowers.Freeze:
+            //        //StartAttack(SuperPowers.Freeze);
+            //        //if (Physics.Raycast(rayOrigin.position, _mainCamera.transform.forward, out hitInfo, RaycastDistance, layer, QueryTriggerInteraction.Collide))
+            //        //{
+            //        //    Debug.LogError($"[Debug]Freeze powers was assigned!");
+            //        //    trail.SetPosition(0, hitInfo.point);
+            //        //    Gizmos.DrawRay(transform.position, transform.forward);
+            //        //}
+            //        //else
+            //        //{
+            //        //    Gizmos.DrawRay(transform.position, rayOrigin.transform.forward);
+            //        //}
+            //        break;
+            //    case SuperPowers.Dash:
+            //        //StartAttack(SuperPowers.Dash);
+            //        //Debug.LogError($"[Debug]Dash powers was assigned!");
+            //        //var step = DashSpeed * Time.deltaTime;
+            //        //transform.position = Vector3.MoveTowards(transform.position, transform.forward * step, 5);
+            //        break;
+            //    default:
+            //        Debug.LogError($"[Debug]No powers were assigned!");
+            //        break;
+            //}
         }
 
         private void Update()
@@ -160,6 +200,13 @@ namespace StarterAssets
             {
                 return;
             }
+
+            StartAttack(m_SuperPower);
+            //if(Input.GetKeyDown(KeyCode.Z))
+            //{
+            //    Debug.LogError($"[Debug]Input detected!!");
+                
+            //}
 
             _hasAnimator = TryGetComponent(out _animator);
 
@@ -177,6 +224,64 @@ namespace StarterAssets
         {
             base.OnStartLocalPlayer();
             GameObject.FindGameObjectWithTag("PlayerFollowCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform.GetChild(0).transform;
+            GameObject.FindGameObjectWithTag("PlayerFollowCamera").GetComponent<CinemachineVirtualCamera>().LookAt = transform.GetChild(0).transform;
+        }
+
+        private void StartAttack(SuperPowers _superPowers)
+        {
+            if(Input.GetMouseButtonDown(0))
+            {
+                Debug.Log("[Debug]Short Press Input");
+                ShortPressAttack(_superPowers);
+            }
+
+            if(Input.GetMouseButton(0))
+            {
+                Debug.Log("[Debug]Long Press Input");
+                LongPressAttack(_superPowers);
+            }
+
+            if(powerMeter >= 100)
+            {
+                RageAttack(_superPowers);
+            }
+        }
+
+        private void ShortPressAttack(SuperPowers _superPower)
+        {
+            switch(_superPower)
+            {
+                case SuperPowers.Freeze:
+                    if (Physics.Raycast(rayOrigin.position, rayOrigin.forward, out hitInfo, RayRange, layer, QueryTriggerInteraction.Collide))
+                    {
+                        Debug.Log("[Debug]Short Press Freeze power");
+                        Debug.DrawRay(rayOrigin.position, rayOrigin.forward*RayRange,Color.red);
+                    }
+                    //Debug.DrawRay(rayOrigin.position, rayOrigin.forward*RayRange,Color.cyan);
+                    break;
+            }
+        }
+
+        private void LongPressAttack(SuperPowers _superPower)
+        {
+            switch (_superPower)
+            {
+                case SuperPowers.Freeze:
+                    //Debug.Log("[Debug]Long Press Freeze power");
+                    //Physics.Raycast(rayOrigin.position, rayOrigin.forward, out hitInfo, RayRange, layer, QueryTriggerInteraction.Collide);
+                    if (Physics.Raycast(rayOrigin.position, rayOrigin.forward, out hitInfo, RayRange, layer, QueryTriggerInteraction.Collide))
+                    {
+                        Debug.Log("[Debug]Long Press Freeze power");
+                        Debug.DrawRay(rayOrigin.position, rayOrigin.forward * RayRange, Color.red);
+                    }
+                    //Debug.DrawRay(rayOrigin.position, rayOrigin.forward * RayRange, Color.cyan);
+                    break;
+            }
+        }
+
+        private void RageAttack(SuperPowers _superPower)
+        {
+
         }
 
         public override void OnStartAuthority()
