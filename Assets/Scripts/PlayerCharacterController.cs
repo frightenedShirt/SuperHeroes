@@ -28,13 +28,14 @@ public class PlayerCharacterController : NetworkBehaviour
     // power up
     [SerializeField] private LayerMask layer;
     [SerializeField] private GameObject ramp;
+    [SerializeField] private GameObject crystalPrefabs;
     [SerializeField] private GameObject rampPrefab;
     [SerializeField] private Transform rayOrigin;
     [SerializeField] private Vector3 maxScale;
-    private SuperPowers m_SuperPower;
+    public SuperPowers m_SuperPower;
     private RaycastHit hitInfo;
     private float RaycastDistance = 10.0f;
-    private float DashSpeed = 100.0f;
+    private float DashSpeed = 25.0f;
     private LineRenderer trail;
     private float RayRange = 50;
     private float timeLongPress = 0.0f;
@@ -44,6 +45,7 @@ public class PlayerCharacterController : NetworkBehaviour
     private Coroutine dashPlayerRage;
     private float rageMeter = 0;
     private float SuperDashSpeed = 1000f;
+    private int speed = 0;
 
     public override void OnStartAuthority()
     {
@@ -62,7 +64,7 @@ public class PlayerCharacterController : NetworkBehaviour
         {
             return;
         }
-        m_SuperPower = SuperPowers.Freeze;
+        m_SuperPower = SuperPowers.Dash;
 
         this.transform.GetChild(1).gameObject.SetActive(true);
     }
@@ -122,6 +124,8 @@ public class PlayerCharacterController : NetworkBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             Debug.Log("[Debug]Short Press Input");
+            timeLongPress = 0;
+            speed = 0;
             ShortPressAttack(_superPowers);
         }
 
@@ -137,7 +141,7 @@ public class PlayerCharacterController : NetworkBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            timeLongPress = 0;
+            
         }
     }
 
@@ -158,7 +162,7 @@ public class PlayerCharacterController : NetworkBehaviour
                 break;
             case SuperPowers.Dash:
                 Debug.Log("[Debug]Short Press Dash power");
-                rb.AddForce(transform.forward * DashSpeed, ForceMode.Force);
+                rb.AddForce(transform.forward * DashSpeed, ForceMode.Impulse);
                 isDashing = true;
                 break;
         }
@@ -166,7 +170,6 @@ public class PlayerCharacterController : NetworkBehaviour
 
     private void LongPressAttack(SuperPowers _superPower)
     {
-        int speed = 0;
         switch (_superPower)
         {
             case SuperPowers.Freeze:
@@ -176,11 +179,6 @@ public class PlayerCharacterController : NetworkBehaviour
                 {
                     rampPrefab.transform.localScale += new Vector3(0, 0, 2);
                 }
-                //if (Physics.Raycast(rayOrigin.position, rayOrigin.forward, out hitInfo, RayRange, layer, QueryTriggerInteraction.Collide))
-                //{
-                //    Debug.Log("[Debug]Long Press Freeze power2");
-                //    Debug.DrawRay(rayOrigin.position, rayOrigin.forward * RayRange, Color.red);
-                //}
                 break;
             case SuperPowers.Dash:
                 Debug.Log("[Debug]Short Press Dash power");
@@ -225,6 +223,30 @@ public class PlayerCharacterController : NetworkBehaviour
                 StartCoroutine(MovePlayer());
                 break;
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(m_SuperPower == SuperPowers.Dash)
+        {
+            if (collision.gameObject.TryGetComponent<EnemyController>(out EnemyController enemyController))
+            {
+                if (!enemyController.canMove)
+                {
+                    DropCollectables(enemyController.transform);
+                    Object.Destroy(enemyController.gameObject);
+                }
+            }
+        }
+        if(collision.gameObject.TryGetComponent<Collectable>(out Collectable collectable))
+        {
+            //collectable.gameObject
+        }
+    }
+
+    private void DropCollectables(Transform transform)
+    {
+        GameObject crystals = Instantiate(crystalPrefabs, transform.position, Quaternion.identity);
     }
 
     private IEnumerator MovePlayer()
