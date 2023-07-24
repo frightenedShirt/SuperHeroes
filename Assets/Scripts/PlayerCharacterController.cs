@@ -42,7 +42,9 @@ public class PlayerCharacterController : NetworkBehaviour
     private float rageMeter = 0;
     private bool canMove = false;
     private bool isDashing = false;
+    private bool inRage = false;
     private int speed = 0;
+    private float sizeIncrease = 0;
 
     public override void OnStartAuthority()
     {
@@ -125,14 +127,14 @@ public class PlayerCharacterController : NetworkBehaviour
 
     private void StartAttack(SuperPowers _superPowers)
     {
-        if (rageMeter >= 10)
-        {
-            RageAttack(_superPowers);
-            return;
-        }
-
+        
         if (Input.GetMouseButtonUp(0))
         {
+            if (rageMeter >= 10)
+            {
+                RageAttack(_superPowers);
+                return;
+            }
             Debug.Log("[Debug]Short Press Input");
             timeLongPress = 0;
             speed = 0;
@@ -141,11 +143,26 @@ public class PlayerCharacterController : NetworkBehaviour
 
         if (Input.GetMouseButton(0))
         {
+            if (rageMeter >= 10)
+            {
+                RageAttack(_superPowers);
+                return;
+            }
             timeLongPress += Time.deltaTime;
             if (timeLongPress >= 2.0)
             {
                 Debug.Log("[Debug]Long Press Input");
                 LongPressAttack(_superPowers);
+            }
+            if(inRage)
+            {
+                inRage = false;
+                ramp = Instantiate(rampPrefab, hitInfo.collider.transform.position, Quaternion.identity, null);
+                rampPrefab.transform.localScale += maxScale;
+                //if (rampPrefab.transform.localScale.x <= maxScale.x && rampPrefab.transform.localScale.y <= maxScale.y && rampPrefab.transform.localScale.z <= maxScale.z)
+                //{
+                //    rampPrefab.transform.localScale += new Vector3(0, 0, 1);
+                //}
             }
         }
     }
@@ -184,11 +201,14 @@ public class PlayerCharacterController : NetworkBehaviour
         switch (_superPower)
         {
             case SuperPowers.Freeze:
-                Debug.Log("[Debug]Long Press Freeze power1");
-                ramp = Instantiate(rampPrefab, transform.forward * 2, Quaternion.identity, null);
-                if(rampPrefab.transform.localScale.x <= maxScale.x && rampPrefab.transform.localScale.y <= maxScale.y && rampPrefab.transform.localScale.z <= maxScale.z)
+                Debug.DrawRay(rayOrigin.position, this.transform.GetChild(1).gameObject.transform.forward * RayRange, Color.cyan);
+                if (Physics.Raycast(rayOrigin.position, this.transform.GetChild(1).gameObject.transform.forward, out hitInfo, RayRange, layer, QueryTriggerInteraction.Collide))
                 {
-                    rampPrefab.transform.localScale += new Vector3(0, 0, 2);
+                    if(maxScale.y < 2 && maxScale.z < 2)
+                    maxScale.y += 0.25f; 
+                    maxScale.z += 0.25f;
+                    inRage = true;
+                    Debug.Log($"[Debug]Long Press Freeze power1::{maxScale}");
                 }
                 break;
             case SuperPowers.Dash:
@@ -226,10 +246,12 @@ public class PlayerCharacterController : NetworkBehaviour
                 {
                     if(hitCollider.gameObject.TryGetComponent<EnemyController>(out EnemyController enemyController))
                     {
-                        Debug.Log("[Debug] Collider Detected");
-                        enemyController.canMove = false;
-                        rageMeter++;
-                        rageMeterUi.value = rageMeter;
+                        if(enemyController.canMove == true)
+                        {
+                            Debug.Log("[Debug] Collider Detected");
+                            enemyController.canMove = false;
+                            rageMeterUi.value = rageMeter;
+                        }
                     }
                 }
                 break;
@@ -250,11 +272,6 @@ public class PlayerCharacterController : NetworkBehaviour
                 StartCoroutine(MovePlayer());
                 break;
         }
-    }
-
-    private void DropCollectables(Transform transform)
-    {
-        GameObject crystals = Instantiate(crystalPrefabs, transform.position, Quaternion.identity);
     }
 
     private IEnumerator MovePlayer()
