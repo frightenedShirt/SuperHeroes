@@ -761,7 +761,12 @@ MonoBehaviour:
   layer:
     serializedVersion: 2
     m_Bits: 16
+  ramp: {fileID: 0}
+  rampPrefab: {fileID: 2565780831370657889, guid: 31913c6207ca643bb96f34c4dba41496,
+    type: 3}
   rayOrigin: {fileID: 865565379494589350}
+  maxScale: {x: 10, y: 2, z: 0.1}
+  m_SuperPower: 1
 --- !u!1 &7946125707018553165
 GameObject:
   m_ObjectHideFlags: 0

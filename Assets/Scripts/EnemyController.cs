@@ -15,6 +15,7 @@ public class EnemyController : NetworkBehaviour
     public Transform target;
 
     public bool canMove = true;
+    public bool reachedShip = false;
 
     [Server]
     private void Start()
@@ -33,7 +34,7 @@ public class EnemyController : NetworkBehaviour
             return;
         }
 
-        if (canMove)
+        if (!reachedShip)
         {
             Vector3 targetDirection = target.position - transform.position;
             Vector3 newDirection = Vector3.RotateTowards(this.transform.forward, targetDirection, rotateSpeed * Time.deltaTime, 0.0f);
@@ -45,7 +46,7 @@ public class EnemyController : NetworkBehaviour
 
             if (distance < stoppingDistance)
             {
-                canMove = false;
+                reachedShip = true;
                 StartCoroutine(StartAttacking());
             }
         }

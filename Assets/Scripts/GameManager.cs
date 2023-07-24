@@ -42,7 +42,6 @@ public class GameManager : NetworkBehaviour
             Debug.Log($"[Debug]Player Replaced");
             GameObject playerObject = Instantiate(characterPrefabs[i], spawnPoints[i].position,Quaternion.identity);
             NetworkServer.ReplacePlayerForConnection(playerID[i], playerObject, true);
-            AssignPowers(playerObject.GetComponent<NetworkIdentity>().netId, SuperPowers[i]);
             playerObjects.Add(playerObject);
         }
         DisableWaitingHUD();
@@ -56,16 +55,6 @@ public class GameManager : NetworkBehaviour
     {
         playerID.Add(sender);
         Debug.Log($"[Debug]Added Player ID");
-    }
-
-    [ClientRpc]
-    private void AssignPowers(uint playerNetId, SuperPowers power)
-    {
-        //GameObject gameObject = 
-        //if (playerNetId.TryGetComponent<PlayerCharacterController>(out PlayerCharacterController playerCharacterController))
-        //{
-        //    playerCharacterController.m_SuperPower = power;
-        //}
     }
 
     [ClientRpc]

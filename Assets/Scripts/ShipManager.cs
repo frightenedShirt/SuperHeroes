@@ -17,7 +17,7 @@ public class ShipManager : NetworkBehaviour
 
     private void Start()
     {
-        currentHealth = maxHealth;
+        currentHealth = maxHealth / 2f;
         slider.maxValue = maxHealth;
         slider.value = maxHealth;
 

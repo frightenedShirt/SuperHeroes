@@ -849,7 +849,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7753906545092193665}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c18626aa1316a4faf9141ed5514642af, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.25
@@ -901,7 +901,12 @@ MonoBehaviour:
   layer:
     serializedVersion: 2
     m_Bits: 16
+  ramp: {fileID: 0}
+  rampPrefab: {fileID: 2565780831370657889, guid: 31913c6207ca643bb96f34c4dba41496,
+    type: 3}
   rayOrigin: {fileID: 865565379494589350}
+  maxScale: {x: 10, y: 2, z: 0.1}
+  m_SuperPower: 2
 --- !u!1 &8752051699508572355
 GameObject:
   m_ObjectHideFlags: 0
