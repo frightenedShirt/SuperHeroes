@@ -61,7 +61,7 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     private void AssignPowers(uint playerNetId, SuperPowers power)
     {
-        //GameObject gameObject = networkspa
+        //GameObject gameObject = 
         //if (playerNetId.TryGetComponent<PlayerCharacterController>(out PlayerCharacterController playerCharacterController))
         //{
         //    playerCharacterController.m_SuperPower = power;

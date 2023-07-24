@@ -1,6 +1,7 @@
 using UnityEngine;
 using Mirror;
 using StarterAssets;
+using System.Collections.Generic;
 
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -14,6 +15,7 @@ public class PlayerCharacterController : NetworkBehaviour
 
     public Transform groundCheck;
     public LayerMask groundLayers;
+    public LayerMask enemyLayer;
 
     private Rigidbody rb;
     private StarterAssetsInputs input;
@@ -32,7 +34,7 @@ public class PlayerCharacterController : NetworkBehaviour
     private float RayRange = 50;
     [SerializeField] private Transform rayOrigin;
     private float timeLongPress = 0.0f;
-
+    private List<Vector3> enemyPos;
     private bool canMove = false;
 
     public override void OnStartAuthority()
@@ -163,7 +165,33 @@ public class PlayerCharacterController : NetworkBehaviour
 
     private void RageAttack(SuperPowers _superPower)
     {
-
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 10.0f, enemyLayer, QueryTriggerInteraction.Ignore);
+        switch (_superPower)
+        {
+            case SuperPowers.Freeze:
+                foreach (var hitCollider in hitColliders)
+                {
+                    if(hitCollider.gameObject.TryGetComponent<EnemyController>(out EnemyController enemyController))
+                    {
+                        Debug.Log("[Debug] Collider Detected");
+                        enemyController.canMove = false;
+                    }
+                }
+                break;
+            case SuperPowers.Dash:
+                foreach (var hitCollider in hitColliders)
+                {
+                    if (hitCollider.gameObject.TryGetComponent<EnemyController>(out EnemyController enemyController))
+                    {
+                        Debug.Log("[Debug] Collider Detected");
+                        if(enemyController.canMove == false)
+                        {
+                            enemyPos.Add(hitCollider.gameObject.transform.position);
+                        }
+                    }
+                }
+                break;
+        }
     }
 
     [TargetRpc]
