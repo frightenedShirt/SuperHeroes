@@ -34,7 +34,7 @@ public class PlayerCharacterController : NetworkBehaviour
     private SuperPowers m_SuperPower;
     private RaycastHit hitInfo;
     private float RaycastDistance = 10.0f;
-    private float DashSpeed = 10.0f;
+    private float DashSpeed = 100.0f;
     private LineRenderer trail;
     private float RayRange = 50;
     private float timeLongPress = 0.0f;
@@ -146,10 +146,14 @@ public class PlayerCharacterController : NetworkBehaviour
         switch (_superPower)
         {
             case SuperPowers.Freeze:
-                if (Physics.Raycast(rayOrigin.position, rayOrigin.forward, out hitInfo, RayRange, layer, QueryTriggerInteraction.Collide))
+                if (Physics.Raycast(rayOrigin.position, rayOrigin.forward, out hitInfo, RayRange, enemyLayer, QueryTriggerInteraction.Collide))
                 {
                     Debug.Log("[Debug]Short Press Freeze power");
-                    Debug.DrawRay(rayOrigin.position, rayOrigin.forward * RayRange, Color.red);
+                    if(hitInfo.rigidbody.gameObject.TryGetComponent<EnemyController>(out EnemyController enemyController))
+                    {
+                        Debug.DrawRay(rayOrigin.position, rayOrigin.forward * RayRange, Color.red);
+                        enemyController.canMove = false;
+                    }
                 }
                 break;
             case SuperPowers.Dash:
